@@ -1,7 +1,8 @@
 {
     "require": {
         "guzzlehttp/guzzle": "^6.2",
-        "php-amqplib/php-amqplib": "^2.6"
+        "php-amqplib/php-amqplib": "^2.6",
+        "raframework/rapkg": "^0.0.14"
     },
     "autoload": {
         "psr-4": {
