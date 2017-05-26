@@ -1,0 +1,12 @@
+{
+    "require": {
+        "guzzlehttp/guzzle": "^6.2",
+        "php-amqplib/php-amqplib": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Promise\\": "src/Promise/",
+            "tests\\": "tests/"
+        }
+    }
+}
