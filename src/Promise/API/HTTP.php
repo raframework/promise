@@ -5,7 +5,7 @@
  * Time: 11:19
  */
 
-namespace Promise;
+namespace Promise\API;
 
 
 class HTTP

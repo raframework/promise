@@ -5,7 +5,7 @@
  * Time: 11:20
  */
 
-namespace Promise;
+namespace Promise\API;
 
 
 class AMQP
