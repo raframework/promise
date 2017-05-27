@@ -7,4 +7,21 @@
  * Time: 19:59
  */
 
+require __DIR__ . '/../vendor/autoload.php';
+
+
+use Rapkg\Cli;
+
+$config = [
+    'command_namespace_prefix' => 'Promise\\Command\\',
+    'commands' => [
+        'daemon',
+    ],
+];
+
+$app = new Cli\App($config);
+$exitCode = $app->run($argv);
+
+exit($exitCode);
+
 
