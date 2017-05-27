@@ -8,7 +8,7 @@
 namespace Promise\Command;
 
 
-use Promise\Model\Page\Row\Queue;
+use Promise\Model\Page\Row\Message;
 use Rapkg\Cli\CommandInterface;
 
 class Daemon implements CommandInterface
@@ -24,8 +24,8 @@ class Daemon implements CommandInterface
 
         $appKey = 'test';
         $payload = 'lala';
-        $queue = new Queue();
-//        $result = $queue->create($appKey, $payload);
+        $queue = new Message();
+        $result = $queue->create($appKey, $payload);
         $listResult = $queue->listBy();
         var_dump($result, $listResult);
 

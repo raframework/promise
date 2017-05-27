@@ -13,7 +13,7 @@ use Rapkg\Design\AbstractPropertyFactory;
 /**
  * Class TableFactory
  * @package Promise\Model\Data\Table
- * @property Queue $queue
+ * @property Message $message
  */
 class TableFactory extends AbstractPropertyFactory
 {
