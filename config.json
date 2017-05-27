@@ -1,0 +1,11 @@
+{
+  // Log level
+  // Allow values:
+  // 0: emergency, 1:alert, 2:critical, 3:error, 4:warning, 5:notice, 6:informational, 7:debug
+  "log_level": 6,
+
+  "database": {
+    // database alias name -> {dsn: [username[:password]@][protocol[(address)]]/dbname[?param1=value1&...&paramN=valueN]}
+    "dsn": "sqlite:promise.db"
+  }
+}
