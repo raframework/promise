@@ -8,7 +8,24 @@
 namespace Promise\API;
 
 
-class HTTP
+class HTTP extends APIBase
 {
+    public function request($method, $uri, array $options = [])
+    {
+    }
 
+    public function expectStatusCode($statusCode)
+    {
+        return $this;
+    }
+
+    public function expectJsonBody()
+    {
+        return $this;
+    }
+
+    public function expectBodyContainingKey()
+    {
+        return $this;
+    }
 }

@@ -8,7 +8,7 @@
 namespace Promise\API;
 
 
-class AMQP
+class AMQP extends APIBase
 {
 
 }

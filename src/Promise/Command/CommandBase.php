@@ -1,16 +1,16 @@
 <?php
 /**
  * User: coderd
- * Date: 2017/5/27
- * Time: 17:00
+ * Date: 2017/6/9
+ * Time: 9:00
  */
 
-namespace Promise\Model\Page;
+namespace Promise\Command;
 
 
 use Promise\ContainerTrait;
 
-class PageBase
+class CommandBase
 {
     use ContainerTrait;
 }

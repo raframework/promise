@@ -8,10 +8,9 @@
 namespace Promise\Command;
 
 
-use Promise\Model\Page\Row\Message;
 use Rapkg\Cli\CommandInterface;
 
-class Daemon implements CommandInterface
+class Daemon extends CommandBase implements CommandInterface
 {
     public function help()
     {
@@ -20,14 +19,8 @@ class Daemon implements CommandInterface
 
     public function run(array $args)
     {
-        echo 'Daemon promise is running...' . "\n";
-
-        $appKey = 'test';
-        $payload = 'lala';
-        $queue = new Message();
-        $result = $queue->create($appKey, $payload);
-        $listResult = $queue->listBy();
-        var_dump($result, $listResult);
+        $listResult = $this->rf->message->listBy();
+        var_dump($listResult);
 
         return 0;
     }
