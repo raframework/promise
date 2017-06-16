@@ -1,14 +1,14 @@
 <?php
 /**
  * User: coderd
- * Date: 2017/5/27
- * Time: 11:19
+ * Date: 2017/6/12
+ * Time: 9:41
  */
 
-namespace Promise\API;
+namespace Promise\Model\Page;
 
 
-class HTTP extends APIBase
+class HTTP
 {
     /**
      * @var array
