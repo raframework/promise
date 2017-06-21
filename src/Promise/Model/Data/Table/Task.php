@@ -8,7 +8,7 @@
 namespace Promise\Model\Data\Table;
 
 
-class Message extends PromiseBase
+class Task extends PromiseBase
 {
     const COL_ID = 'id';
     const COL_VERSION = 'version';
@@ -20,7 +20,7 @@ class Message extends PromiseBase
 
     public function __construct()
     {
-        parent::__construct('message');
+        parent::__construct('task');
     }
 
     private static $columns = [

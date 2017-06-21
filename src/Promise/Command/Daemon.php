@@ -8,9 +8,7 @@
 namespace Promise\Command;
 
 
-use Rapkg\Cli\CommandInterface;
-
-class Daemon extends CommandBase implements CommandInterface
+class Daemon extends CommandBase
 {
     public function help()
     {
@@ -19,7 +17,7 @@ class Daemon extends CommandBase implements CommandInterface
 
     public function run(array $args)
     {
-        $listResult = $this->rf->message->listBy();
+        $listResult = $this->rf->task->listBy();
         var_dump($listResult);
 
         return 0;

@@ -1,24 +1,26 @@
 <?php
 /**
  * User: coderd
- * Date: 2017/5/27
- * Time: 16:57
+ * Date: 2017/6/21
+ * Time: 18:05
  */
 
-namespace Promise\Model\Data\Table;
+namespace Promise\Model\Page;
 
 
 use Rapkg\Design\AbstractPropertyFactory;
 
 /**
- * Class TableFactory
- * @package Promise\Model\Data\Table
- * @property Task $task
+ * Class PageFactory
+ * @package Promise\Model\Page
+ * @property TaskManager $taskManager
  */
-class TableFactory extends AbstractPropertyFactory
+class PageFactory extends AbstractPropertyFactory
 {
-    private function __construct(){}
 
+    /**
+     * @return string
+     */
     protected function namespacePrefix()
     {
         return __NAMESPACE__ . '\\';
@@ -27,7 +29,7 @@ class TableFactory extends AbstractPropertyFactory
     private static $instance;
 
     /**
-     * @return TableFactory
+     * @return PageFactory
      */
     public static function i()
     {

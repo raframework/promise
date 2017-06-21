@@ -9,8 +9,9 @@ namespace Promise\Command;
 
 
 use Promise\ContainerTrait;
+use Rapkg\Cli\CommandInterface;
 
-class CommandBase
+abstract class CommandBase implements CommandInterface
 {
     use ContainerTrait;
 }

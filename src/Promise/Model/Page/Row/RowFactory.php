@@ -13,7 +13,7 @@ use Rapkg\Design\AbstractPropertyFactory;
 /**
  * Class RowFactory
  * @package Promise\Model\Page\Row
- * @property Message $message
+ * @property Task $task
  */
 class RowFactory extends AbstractPropertyFactory
 {

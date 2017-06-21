@@ -2,12 +2,15 @@
     "require": {
         "guzzlehttp/guzzle": "^6.2",
         "php-amqplib/php-amqplib": "^2.6",
-        "raframework/rapkg": "^0.0.14"
+        "raframework/rapkg": "^0.0"
     },
     "autoload": {
         "psr-4": {
             "Promise\\": "src/Promise/",
             "tests\\": "tests/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
     }
 }

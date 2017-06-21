@@ -8,6 +8,7 @@
 namespace Promise;
 
 
+use Promise\Model\Page\PageFactory;
 use Promise\Model\Page\Row\RowFactory;
 use Promise\Model\Data\Table\TableFactory;
 
@@ -23,6 +24,11 @@ trait ContainerTrait
      */
     protected $rf;
 
+    /**
+     * @var PageFactory
+     */
+    protected $pf;
+
     public function __construct()
     {
         if ($this->tf === null) {
@@ -31,6 +37,10 @@ trait ContainerTrait
 
         if ($this->rf === null) {
             $this->rf = RowFactory::i();
+        }
+
+        if ($this->pf === null) {
+            $this->pf = PageFactory::i();
         }
     }
 }

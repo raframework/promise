@@ -10,17 +10,17 @@ namespace Promise\Model\Page\Row;
 
 use Promise\Model\Page\PageBase;
 
-class Message extends PageBase
+class Task extends PageBase
 {
     const VERSION = 1;
 
     public function create($appKey, $payload)
     {
-        return $this->tf->message->create(self::VERSION, $appKey, $payload);
+        return $this->tf->task->create(self::VERSION, $appKey, $payload);
     }
 
     public function listBy(array $wheres = [])
     {
-        return $this->tf->message->listBy($wheres);
+        return $this->tf->task->listBy($wheres);
     }
 }
