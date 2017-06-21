@@ -13,6 +13,7 @@ class Task extends PromiseBase
     const COL_ID = 'id';
     const COL_VERSION = 'version';
     const COL_APP_KEY = 'app_key';
+    const COL_TYPE = 'type';
     const COL_PAYLOAD = 'payload';
     const COL_STATUS = 'status';
     const COL_UPDATED_AT = 'updated_at';
@@ -27,22 +28,25 @@ class Task extends PromiseBase
         self::COL_ID,
         self::COL_VERSION,
         self::COL_APP_KEY,
+        self::COL_TYPE,
         self::COL_PAYLOAD,
         self::COL_STATUS,
         self::COL_UPDATED_AT,
         self::COL_CREATED_AT,
     ];
 
-    public function create($version, $appKey, $payload)
+    public function create($version, $appKey, array $extraParams = [])
     {
         $now = time();
         $values = [
             self::COL_VERSION => $version,
             self::COL_APP_KEY => $appKey,
-            self::COL_PAYLOAD => $payload,
             self::COL_UPDATED_AT => $now,
             self::COL_CREATED_AT => $now,
         ];
+        if ($extraParams) {
+            $values = array_merge($values, $extraParams);
+        }
 
         return $this->insert($values);
     }

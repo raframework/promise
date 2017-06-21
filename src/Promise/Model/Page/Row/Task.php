@@ -16,7 +16,11 @@ class Task extends PageBase
 
     public function create($appKey, $payload)
     {
-        return $this->tf->task->create(self::VERSION, $appKey, $payload);
+        $extraParams = [
+            'type' => self::VERSION,
+            'payload' => $payload,
+        ];
+        return $this->tf->task->create(self::VERSION, $appKey, $extraParams);
     }
 
     public function listBy(array $wheres = [])
