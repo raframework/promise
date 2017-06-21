@@ -9,10 +9,10 @@
 namespace tests\Promise\API;
 
 
+use tests\TestBase;
 use Promise\API\Promise;
-use PHPUnit\Framework\TestCase;
 
-class PromiseTest extends TestCase
+class PromiseTest extends TestBase
 {
     public function testHTTP()
     {

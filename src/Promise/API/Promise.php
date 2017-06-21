@@ -8,7 +8,6 @@
 namespace Promise\API;
 
 
-use Promise\Model\Page;
 use Promise\Lib\Wire\HTTP;
 
 class Promise extends APIBase

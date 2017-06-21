@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit verbose="true"
+         bootstrap="vendor/autoload.php"
+         color="always">
+    <testsuites>
+        <testsuite name="promise">
+            <directory>./tests/Promise/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

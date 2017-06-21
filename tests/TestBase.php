@@ -9,7 +9,9 @@
 namespace tests;
 
 
-class TestBase extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class TestBase extends TestCase
 {
 
 }
