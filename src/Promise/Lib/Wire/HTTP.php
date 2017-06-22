@@ -28,6 +28,8 @@ class HTTP
 
     protected $retryOptions = [];
 
+    protected $deadline = 0;
+
     private static $supportedMethods = [
         'GET',
         'POST',
@@ -103,12 +105,14 @@ class HTTP
      *                          'interval' => float retry interval, second
      *                          'till_time' => int  retry till time, unix timestamp
      *                       ]
+     * @return $this
      */
     public function withRetryOptions(array $options)
     {
         self::checkRetryOptions($options);
-
         $this->retryOptions = $options;
+
+        return $this;
     }
 
     private static function checkRetryOptions(array $options)
@@ -123,13 +127,31 @@ class HTTP
                 'The options.interval must be a float with a positive value'
             );
         }
+    }
+
+    /**
+     * @param int $deadline  unix timestamp
+     * @throws InvalidArgumentException
+     * @return $this
+     */
+    public function withDeadline($deadline)
+    {
         $now = time();
-        if (!isset($options['till_time']) || !is_int($options['till_time']) || $options['till_time'] < $now) {
+        if (!is_int($deadline) || $deadline < $now) {
             throw new InvalidArgumentException(
-                'The options.till_time must be an integer with '
+                'The "deadline" must be an integer with '
                 . 'a positive value larger than current timestamp "' . $now . '"'
             );
         }
+
+        $this->deadline = $deadline;
+
+        return $this;
+    }
+
+    public function getDeadline()
+    {
+        return $this->deadline;
     }
 
     public function toArray()

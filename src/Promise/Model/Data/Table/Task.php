@@ -16,6 +16,8 @@ class Task extends PromiseBase
     const COL_TYPE = 'type';
     const COL_PAYLOAD = 'payload';
     const COL_STATUS = 'status';
+    const COL_DEADLINE = 'deadline';
+    const COL_LAST_HANDLED_AT = 'last_handled_at';
     const COL_UPDATED_AT = 'updated_at';
     const COL_CREATED_AT = 'created_at';
 
@@ -31,6 +33,8 @@ class Task extends PromiseBase
         self::COL_TYPE,
         self::COL_PAYLOAD,
         self::COL_STATUS,
+        self::COL_DEADLINE,
+        self::COL_LAST_HANDLED_AT,
         self::COL_UPDATED_AT,
         self::COL_CREATED_AT,
     ];

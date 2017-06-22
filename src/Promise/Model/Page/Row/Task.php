@@ -14,12 +14,10 @@ class Task extends PageBase
 {
     const VERSION = 1;
 
-    public function create($appKey, $type, $payload)
+    public function create($appKey, $type, array $extraParams = [])
     {
-        $extraParams = [
-            'type' => $type,
-            'payload' => $payload,
-        ];
+        $extraParams = array_merge(['type' => $type], $extraParams);
+
         return $this->tf->task->create(self::VERSION, $appKey, $extraParams);
     }
 

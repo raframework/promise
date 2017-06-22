@@ -23,7 +23,8 @@ class PromiseTest extends TestBase
         $promise = new Promise($data['app_key']);
         $promise->sendHTTPRequest($data['request']['method'], $data['request']['uri'],$data['request']['options'])
             ->expectStatusCode($data['expected_response']['status_code'])
-            ->withRetryOptions($data['retry_options']);
+            ->withRetryOptions($data['retry_options'])
+            ->withDeadline($data['deadline']);
 
         $this->assertTrue($promise->doNow());
     }
@@ -45,8 +46,8 @@ class PromiseTest extends TestBase
                     'retry_options' => [
                         'retries' => 100,
                         'interval' => 3.0,
-                        'till_time' => time() + 120,
-                    ]
+                    ],
+                    'deadline' => time() + 120,
                 ]
             ]
         ];

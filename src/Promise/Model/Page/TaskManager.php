@@ -15,8 +15,13 @@ class TaskManager extends PageBase
 {
     public function addHTTPRequest($appKey, HTTP $HTTPRequest)
     {
+        $deadline = $HTTPRequest->getDeadline();
         $payload = json_encode($HTTPRequest->toArray());
+        $extraParams = [
+            'deadline' => $deadline,
+            'payload' => $payload,
+        ];
 
-        return $this->rf->task->create($appKey, Constant::TASK_TYPE_HTTP, $payload);
+        return $this->rf->task->create($appKey, Constant::TASK_TYPE_HTTP, $extraParams);
     }
 }

@@ -12,13 +12,11 @@ class Daemon extends CommandBase
 {
     public function help()
     {
-        return 'Run promise in daemon';
+        return $this->synopsis();
     }
 
     public function run(array $args)
     {
-//        $result = $this->rf->task->schema();
-//        var_dump($result);
         $listResult = $this->rf->task->listBy();
         var_dump($listResult);
 
@@ -27,6 +25,6 @@ class Daemon extends CommandBase
 
     public function synopsis()
     {
-        return 'Run promise in daemon';
+        return 'Run promise as daemon';
     }
 }
