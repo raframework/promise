@@ -9,6 +9,7 @@ namespace Promise\Model\Page;
 
 
 use Promise\Lib\Wire\HTTP;
+use Promise\Config\Constant;
 
 class TaskManager extends PageBase
 {
@@ -16,6 +17,6 @@ class TaskManager extends PageBase
     {
         $payload = json_encode($HTTPRequest->toArray());
 
-        return $this->rf->task->create($appKey, $payload);
+        return $this->rf->task->create($appKey, Constant::TASK_TYPE_HTTP, $payload);
     }
 }

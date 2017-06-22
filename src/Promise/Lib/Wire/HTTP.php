@@ -26,6 +26,8 @@ class HTTP
      */
     protected $expectedResponse = [];
 
+    protected $retryOptions = [];
+
     private static $supportedMethods = [
         'GET',
         'POST',
@@ -93,11 +95,49 @@ class HTTP
         return $this;
     }
 
+    /**
+     * @param array $options defines the retry options
+     *                       It must be an associative in the format:
+     *                       [
+     *                          'retries' => int    retry times
+     *                          'interval' => float retry interval, second
+     *                          'till_time' => int  retry till time, unix timestamp
+     *                       ]
+     */
+    public function withRetryOptions(array $options)
+    {
+        self::checkRetryOptions($options);
+
+        $this->retryOptions = $options;
+    }
+
+    private static function checkRetryOptions(array $options)
+    {
+        if (!isset($options['retries']) || !is_int($options['retries']) || $options['retries'] <= 0) {
+            throw new InvalidArgumentException(
+                'The options.retries must be an integer with a positive value'
+            );
+        }
+        if (!isset($options['interval']) || !is_float($options['interval']) || $options['interval'] <= 0.0) {
+            throw new InvalidArgumentException(
+                'The options.interval must be a float with a positive value'
+            );
+        }
+        $now = time();
+        if (!isset($options['till_time']) || !is_int($options['till_time']) || $options['till_time'] < $now) {
+            throw new InvalidArgumentException(
+                'The options.till_time must be an integer with '
+                . 'a positive value larger than current timestamp "' . $now . '"'
+            );
+        }
+    }
+
     public function toArray()
     {
         return [
             'request' => $this->request,
             'expected_response' => $this->expectedResponse,
+            'retry_options' => $this->retryOptions,
         ];
     }
 }
