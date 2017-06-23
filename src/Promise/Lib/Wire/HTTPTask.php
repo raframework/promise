@@ -106,22 +106,22 @@ class HTTPTask extends TaskBase
     public function validate()
     {
         if (empty($this->request)) {
-            throw new \InvalidArgumentException('Request info must be set');
+            throw new InvalidArgumentException('Request info must be set');
         }
         if (empty($this->request['method']) || empty($this->request['uri'])) {
-            throw new \InvalidArgumentException('Request method and uri must be set properly, call withRequest().');
+            throw new InvalidArgumentException('Request method and uri must be set properly, call withRequest().');
         }
         if (empty($this->getExpectedResponse())) {
-            throw new \InvalidArgumentException('"Expected response" must be set, call expect***().');
+            throw new InvalidArgumentException('"Expected response" must be set, call expect***().');
         }
         if (empty($this->getDeadline())) {
-            throw new \InvalidArgumentException('"Deadline" must be set, call withDeadline().');
+            throw new InvalidArgumentException('"Deadline" must be set, call withDeadline().');
         }
         if (empty($this->getMaxRetries())) {
-            throw new \InvalidArgumentException('"Max retries" must be set, call withMaxRetries().');
+            throw new InvalidArgumentException('"Max retries" must be set, call withMaxRetries().');
         }
         if (empty($this->getRetryInterval())) {
-            throw new \InvalidArgumentException('"Retry interval" must be set, call withRetryInterval().');
+            throw new InvalidArgumentException('"Retry interval" must be set, call withRetryInterval().');
         }
     }
 }

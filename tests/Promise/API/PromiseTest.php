@@ -53,7 +53,7 @@ class PromiseTest extends TestBase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Promise\Lib\Exception\InvalidArgumentException
      * @expectedExceptionMessage "Expected response" must be set
      */
     public function testSendHTTPRequestWithoutExpectedResponse()
@@ -65,7 +65,7 @@ class PromiseTest extends TestBase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Promise\Lib\Exception\InvalidArgumentException
      * @expectedExceptionMessage "Deadline" must be set
      */
     public function testSendHTTPRequestWithoutDeadline()
@@ -78,7 +78,7 @@ class PromiseTest extends TestBase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Promise\Lib\Exception\InvalidArgumentException
      * @expectedExceptionMessage "Max retries" must be set
      */
     public function testSendHTTPRequestWithoutMaxRetries()
@@ -92,7 +92,7 @@ class PromiseTest extends TestBase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Promise\Lib\Exception\InvalidArgumentException
      * @expectedExceptionMessage "Retry interval" must be set
      */
     public function testSendHTTPRequestWithoutRetryInterval()
