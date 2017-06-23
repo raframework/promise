@@ -51,4 +51,58 @@ class PromiseTest extends TestBase
             ]
         ];
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage "Expected response" must be set
+     */
+    public function testSendHTTPRequestWithoutExpectedResponse()
+    {
+        $promise = new Promise('test');
+        $promise->sendHTTPRequest('GET', 'http://localhost');
+
+        $this->assertTrue($promise->doNow());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage "Deadline" must be set
+     */
+    public function testSendHTTPRequestWithoutDeadline()
+    {
+        $promise = new Promise('test');
+        $promise->sendHTTPRequest('GET', 'http://localhost')
+            ->expectStatusCode(200);
+
+        $this->assertTrue($promise->doNow());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage "Max retries" must be set
+     */
+    public function testSendHTTPRequestWithoutMaxRetries()
+    {
+        $promise = new Promise('test');
+        $promise->sendHTTPRequest('GET', 'http://localhost')
+            ->expectStatusCode(200)
+            ->withDeadline(time() + 200);
+
+        $this->assertTrue($promise->doNow());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage "Retry interval" must be set
+     */
+    public function testSendHTTPRequestWithoutRetryInterval()
+    {
+        $promise = new Promise('test');
+        $promise->sendHTTPRequest('GET', 'http://localhost')
+            ->expectStatusCode(200)
+            ->withDeadline(time() + 200)
+            ->withMaxRetries(20);
+
+        $this->assertTrue($promise->doNow());
+    }
 }

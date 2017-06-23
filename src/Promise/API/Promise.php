@@ -14,7 +14,10 @@ class Promise extends APIBase
 {
     private $appKey;
 
-    private $HTTPTaskPool = [];
+    /**
+     * @var array
+     */
+    private $HTTPTaskList = [];
 
     public function __construct($appKey)
     {
@@ -35,18 +38,23 @@ class Promise extends APIBase
     {
         $HTTPTask = new HTTPTask();
         $HTTPTask->withRequest($method, $uri, $options);
-        $this->HTTPTaskPool[] = $HTTPTask;
+        $this->HTTPTaskList[] = $HTTPTask;
 
         return $HTTPTask;
     }
 
     public function doNow()
     {
-        if (empty($this->HTTPTaskPool)) {
+        if (empty($this->HTTPTaskList)) {
             return true;
         }
 
-        foreach ($this->HTTPTaskPool as $HTTPRequest) {
+        // Validate
+        foreach ($this->HTTPTaskList as $HTTPRequest) {
+            $HTTPRequest->validate();
+        }
+
+        foreach ($this->HTTPTaskList as $HTTPRequest) {
             $this->pf->taskManager->addHTTPTask($this->appKey, $HTTPRequest);
         }
 

@@ -17,14 +17,14 @@ class HTTPTask extends TaskBase
      *
      * @var array
      */
-    protected $request = [];
+    protected $request;
 
     /**
      * Representation of a expected response
      *
      * @var array
      */
-    protected $expectedResponse = [];
+    protected $expectedResponse;
 
     private static $supportedMethods = [
         'GET',
@@ -101,5 +101,27 @@ class HTTPTask extends TaskBase
     public function getExpectedResponse()
     {
         return $this->expectedResponse;
+    }
+
+    public function validate()
+    {
+        if (empty($this->request)) {
+            throw new \InvalidArgumentException('Request info must be set');
+        }
+        if (empty($this->request['method']) || empty($this->request['uri'])) {
+            throw new \InvalidArgumentException('Request method and uri must be set properly, call withRequest().');
+        }
+        if (empty($this->getExpectedResponse())) {
+            throw new \InvalidArgumentException('"Expected response" must be set, call expect***().');
+        }
+        if (empty($this->getDeadline())) {
+            throw new \InvalidArgumentException('"Deadline" must be set, call withDeadline().');
+        }
+        if (empty($this->getMaxRetries())) {
+            throw new \InvalidArgumentException('"Max retries" must be set, call withMaxRetries().');
+        }
+        if (empty($this->getRetryInterval())) {
+            throw new \InvalidArgumentException('"Retry interval" must be set, call withRetryInterval().');
+        }
     }
 }
