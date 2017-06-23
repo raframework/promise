@@ -8,13 +8,13 @@
 namespace Promise\API;
 
 
-use Promise\Lib\Wire\HTTP;
+use Promise\Lib\Wire\HTTPTask;
 
 class Promise extends APIBase
 {
     private $appKey;
 
-    private $HTTPRequestPool = [];
+    private $HTTPTaskPool = [];
 
     public function __construct($appKey)
     {
@@ -29,25 +29,25 @@ class Promise extends APIBase
      * @param $method
      * @param $uri
      * @param array $options
-     * @return HTTP
+     * @return HTTPTask
      */
     public function sendHTTPRequest($method, $uri, array $options = [])
     {
-        $HTTP = new HTTP();
-        $HTTP->withRequest($method, $uri, $options);
-        $this->HTTPRequestPool[] = $HTTP;
+        $HTTPTask = new HTTPTask();
+        $HTTPTask->withRequest($method, $uri, $options);
+        $this->HTTPTaskPool[] = $HTTPTask;
 
-        return $HTTP;
+        return $HTTPTask;
     }
 
     public function doNow()
     {
-        if (empty($this->HTTPRequestPool)) {
+        if (empty($this->HTTPTaskPool)) {
             return true;
         }
 
-        foreach ($this->HTTPRequestPool as $HTTPRequest) {
-            $this->pf->taskManager->addHTTPRequest($this->appKey, $HTTPRequest);
+        foreach ($this->HTTPTaskPool as $HTTPRequest) {
+            $this->pf->taskManager->addHTTPTask($this->appKey, $HTTPRequest);
         }
 
         return true;

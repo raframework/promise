@@ -17,6 +17,9 @@ class Task extends PromiseBase
     const COL_PAYLOAD = 'payload';
     const COL_STATUS = 'status';
     const COL_DEADLINE = 'deadline';
+    const COL_MAX_RETRIES = 'max_retries';
+    const COL_RETRIES = 'retries';
+    const COL_RETRY_INTERVAL = 'retry_interval';
     const COL_LAST_HANDLED_AT = 'last_handled_at';
     const COL_UPDATED_AT = 'updated_at';
     const COL_CREATED_AT = 'created_at';
@@ -34,6 +37,9 @@ class Task extends PromiseBase
         self::COL_PAYLOAD,
         self::COL_STATUS,
         self::COL_DEADLINE,
+        self::COL_MAX_RETRIES,
+        self::COL_RETRIES,
+        self::COL_RETRY_INTERVAL,
         self::COL_LAST_HANDLED_AT,
         self::COL_UPDATED_AT,
         self::COL_CREATED_AT,

@@ -8,18 +8,23 @@
 namespace Promise\Model\Page;
 
 
-use Promise\Lib\Wire\HTTP;
 use Promise\Config\Constant;
+use Promise\Lib\Wire\HTTPTask;
 
 class TaskManager extends PageBase
 {
-    public function addHTTPRequest($appKey, HTTP $HTTPRequest)
+    public function addHTTPTask($appKey, HTTPTask $HTTPTask)
     {
-        $deadline = $HTTPRequest->getDeadline();
-        $payload = json_encode($HTTPRequest->toArray());
+        $deadline = $HTTPTask->getDeadline();
+        $payload = json_encode([
+            'request' => $HTTPTask->getRequest(),
+            'expected_response' => $HTTPTask->getExpectedResponse(),
+        ]);
         $extraParams = [
-            'deadline' => $deadline,
             'payload' => $payload,
+            'deadline' => $deadline,
+            'max_retries' => $HTTPTask->getMaxRetries(),
+            'retry_interval' => $HTTPTask->getRetryInterval(),
         ];
 
         return $this->rf->task->create($appKey, Constant::TASK_TYPE_HTTP, $extraParams);
