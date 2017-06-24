@@ -44,8 +44,8 @@ class PromiseTest extends TestBase
                     'expected_response' => [
                         'status_code' => 200,
                     ],
-                    'max_retries' => 100,
-                    'retry_interval' => 3000,
+                    'max_retries' => 5,
+                    'retry_interval' => 3,
                     'deadline' => time() + 120,
                 ]
             ]

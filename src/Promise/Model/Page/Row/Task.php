@@ -25,4 +25,9 @@ class Task extends PageBase
     {
         return $this->tf->task->listBy($wheres);
     }
+
+    public function listBeingHandledTasks()
+    {
+        return $this->tf->task->listBeingHandledTasks();
+    }
 }

@@ -8,6 +8,8 @@
 namespace Promise\Model\Data\Table;
 
 
+use Promise\Config\Constant;
+
 class Task extends PromiseBase
 {
     const COL_ID = 'id';
@@ -64,5 +66,21 @@ class Task extends PromiseBase
     public function listBy(array $wheres = [])
     {
         return $this->select(self::$columns, $wheres);
+    }
+
+    public function listBeingHandledTasks()
+    {
+        $now = time();
+        $wheres = sprintf("`deadline` > '%d'"
+            . " AND `status` IN ('%d', '%d')"
+            . " AND `last_retried_at` + `retry_interval` < '%d'"
+            . ' AND `retries` < `max_retries`',
+            $now,
+            Constant::TASK_STATUS_NEWLY_ADDED,
+            Constant::TASK_STATUS_FAILED,
+            $now
+        );
+
+        return $this->select(self::$columns, $wheres, [self::COL_ID => 'ASC']);
     }
 }

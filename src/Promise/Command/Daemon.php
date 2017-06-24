@@ -17,8 +17,7 @@ class Daemon extends CommandBase
 
     public function run(array $args)
     {
-        $listResult = $this->rf->task->listBy();
-        var_dump($listResult);
+        $this->pf->taskManager->handleTasks();
 
         return 0;
     }
