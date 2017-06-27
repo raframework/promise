@@ -8,6 +8,8 @@
 namespace Promise\Command;
 
 
+use Promise\Lib\Log;
+
 class Daemon extends CommandBase
 {
     public function help()
@@ -17,6 +19,8 @@ class Daemon extends CommandBase
 
     public function run(array $args)
     {
+        Log::debug('daemon is running');
+
         $this->pf->taskManager->handleTasks();
 
         return 0;
