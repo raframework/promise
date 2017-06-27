@@ -26,8 +26,18 @@ class Task extends PageBase
         return $this->tf->task->listBy($wheres);
     }
 
-    public function listBeingHandledTasks()
+    public function listPendingTasks()
     {
-        return $this->tf->task->listBeingHandledTasks();
+        return $this->tf->task->listPendingTasks();
+    }
+
+    public function retryFailed($id)
+    {
+        return $this->tf->task->retryFailed($id);
+    }
+
+    public function retrySucceeded($id)
+    {
+        return $this->tf->task->retrySucceeded($id);
     }
 }

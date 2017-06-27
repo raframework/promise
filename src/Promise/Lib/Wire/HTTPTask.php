@@ -8,10 +8,18 @@
 namespace Promise\Lib\Wire;
 
 
+use Psr\Http\Message\ResponseInterface;
+use Promise\Lib\Exception\RuntimeException;
 use Promise\Lib\Exception\InvalidArgumentException;
 
 class HTTPTask extends TaskBase
 {
+    const EXPECTED_BODY                   = 'body';
+    const EXPECTED_STATUS_CODE            = 'status_code';
+    const EXPECTED_BODY_JSON_HAS_KEY      = 'body_json_has_key';
+    const EXPECTED_BODY_JSON_FIELD_EQUALS = 'body_json_field_equals';
+    const EXPECTED_BODY_CONTAINS_STRING   = 'body_contains_string';
+
     /**
      * Representation of a request
      *
@@ -62,28 +70,28 @@ class HTTPTask extends TaskBase
 
     public function expectBody($body)
     {
-        $this->expectedResponse['body'] = (string)$body;
+        $this->expectedResponse[self::EXPECTED_BODY] = (string)$body;
 
         return $this;
     }
 
     public function expectStatusCode($statusCode)
     {
-        $this->expectedResponse['status_code'] = (int)$statusCode;
+        $this->expectedResponse[self::EXPECTED_STATUS_CODE] = (int)$statusCode;
 
         return $this;
     }
 
     public function expectBodyJsonHasKey($key)
     {
-        $this->expectedResponse['body_json_has_key'] = $key;
+        $this->expectedResponse[self::EXPECTED_BODY_JSON_HAS_KEY] = $key;
 
         return $this;
     }
 
     public function expectBodyJsonFieldEquals($key, $expectedValue)
     {
-        $this->expectedResponse['body_json_field_equals'] = [
+        $this->expectedResponse[self::EXPECTED_BODY_JSON_FIELD_EQUALS] = [
             'key' => $key,
             'expected_value' => $expectedValue,
         ];
@@ -93,7 +101,7 @@ class HTTPTask extends TaskBase
 
     public function expectBodyContainsString($string)
     {
-        $this->expectedResponse['body_contains_string'] = $string;
+        $this->expectedResponse[self::EXPECTED_BODY_CONTAINS_STRING] = $string;
 
         return $this;
     }
@@ -123,5 +131,26 @@ class HTTPTask extends TaskBase
         if (empty($this->getRetryInterval())) {
             throw new InvalidArgumentException('"Retry interval" must be set, call withRetryInterval().');
         }
+    }
+
+    public static function assertResponse(array $expectedResponse, ResponseInterface $response)
+    {
+        if (empty($expectedResponse)) {
+            return true;
+        }
+
+        $HTTPTaskAssert = new HTTPTaskAssert($response);
+        foreach ($expectedResponse as $key => $value) {
+            $assertMethod = 'assert' . str_replace('_', '', ucwords($key));
+            if (!method_exists($HTTPTaskAssert, $assertMethod)) {
+                throw new RuntimeException(
+                    'Method [' . get_class($HTTPTaskAssert) .  ' ' . $assertMethod . '] not exists');
+            }
+            if (false === $HTTPTaskAssert->$assertMethod($value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

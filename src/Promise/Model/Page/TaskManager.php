@@ -11,6 +11,7 @@ namespace Promise\Model\Page;
 use GuzzleHttp\Client;
 use Promise\Config\Constant;
 use Promise\Lib\Wire\HTTPTask;
+use GuzzleHttp\Exception\ClientException;
 
 class TaskManager extends PageBase
 {
@@ -33,8 +34,7 @@ class TaskManager extends PageBase
 
     public function handleTasks()
     {
-        $tasks = $this->rf->task->listBeingHandledTasks();
-        var_dump($tasks);
+        $tasks = $this->rf->task->listPendingTasks();
         if (empty($tasks)) {
             return;
         }
@@ -46,19 +46,31 @@ class TaskManager extends PageBase
         }
     }
 
-    public function handleHTTPTask($task)
+    public function handleHTTPTask(array $task)
     {
         $payload = json_decode($task['payload'], true);
         if (empty($payload)) {
             return false;
         }
-        var_dump($payload);
 
         $request = $payload['request'];
-        $client = new Client();
-        $response = $client->request($request['method'], $request['uri'], $request['options']);
-        $statusCode = $response->getStatusCode();
-        var_dump($statusCode);
+        $client = new Client([
+            'timeout' => 3
+        ]);
+        try {
+            $response = $client->request($request['method'], $request['uri'], $request['options']);
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+        }
+
+        if (HTTPTask::assertResponse($payload['expected_response'], $response)) {
+            $result = $this->rf->task->retrySucceeded($task['id']);
+        } else {
+            $result = $this->rf->task->retryFailed($task['id']);
+        }
+        if ($result === false) {
+            return false;
+        }
 
         return true;
     }

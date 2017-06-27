@@ -68,7 +68,7 @@ class Task extends PromiseBase
         return $this->select(self::$columns, $wheres);
     }
 
-    public function listBeingHandledTasks()
+    public function listPendingTasks()
     {
         $now = time();
         $wheres = sprintf("`deadline` > '%d'"
@@ -82,5 +82,29 @@ class Task extends PromiseBase
         );
 
         return $this->select(self::$columns, $wheres, [self::COL_ID => 'ASC']);
+    }
+
+    public function retryFailed($id)
+    {
+        $now = time();
+        $values = sprintf(
+            "`status` = '%d', `retries` = `retries` + 1, `updated_at` = '%d'",
+            Constant::TASK_STATUS_FAILED,
+            $now
+        );
+
+        return $this->update($values, [self::COL_ID => $id]);
+    }
+
+    public function retrySucceeded($id)
+    {
+        $now = time();
+        $values = sprintf(
+            "`status` = '%d', `retries` = `retries` + 1, `updated_at` = '%d'",
+            Constant::TASK_STATUS_SUCCESS,
+            $now
+        );
+
+        return $this->update($values, [self::COL_ID => $id]);
     }
 }
