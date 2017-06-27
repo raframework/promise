@@ -8,6 +8,8 @@
 namespace Promise;
 
 
+use Promise\Lib\Log;
+use Psr\Log\LogLevel;
 use Promise\Model\Page\PageFactory;
 use Promise\Model\Page\Row\RowFactory;
 use Promise\Model\Data\Table\TableFactory;
@@ -29,6 +31,8 @@ trait ContainerTrait
      */
     protected $pf;
 
+    private static $initialized = false;
+
     public function __construct()
     {
         if ($this->tf === null) {
@@ -42,5 +46,17 @@ trait ContainerTrait
         if ($this->pf === null) {
             $this->pf = PageFactory::i();
         }
+
+        self::init();
+    }
+
+    private static function init()
+    {
+        if (self::$initialized) {
+            return;
+        }
+
+        Log::initDefaultLogger('/home/huangshaowen/www/log/promise/promise.log');
+        Log::setDefaultLevel(LogLevel::DEBUG);
     }
 }

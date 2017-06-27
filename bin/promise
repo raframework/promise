@@ -10,8 +10,6 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Rapkg\Cli;
-use Promise\Lib\Log;
-use Psr\Log\LogLevel;
 
 $config = [
     'command_namespace_prefix' => 'Promise\\Command\\',
@@ -19,9 +17,6 @@ $config = [
         'daemon',
     ],
 ];
-
-Log::initDefaultLogger('/home/huangshaowen/www/log/promise/promise.log');
-Log::setDefaultLevel(LogLevel::DEBUG);
 
 $app = new Cli\App($config);
 $exitCode = $app->run($argv);

@@ -8,9 +8,9 @@
 namespace Promise\Model\Page;
 
 
+use Promise\Lib\Log;
 use GuzzleHttp\Client;
 use Promise\Config\Constant;
-use Promise\Lib\Log;
 use Promise\Lib\Wire\HTTPTask;
 use GuzzleHttp\Exception\ClientException;
 
