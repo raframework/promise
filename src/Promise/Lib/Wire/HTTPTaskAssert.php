@@ -32,7 +32,7 @@ class HTTPTaskAssert
         return $this->response->getStatusCode() === $expected;
     }
 
-    public function assertBodyJsonHashKey($expected)
+    public function assertBodyJsonHasKey($expected)
     {
         $body = json_decode($this->response->getBody(), true);
         if (empty($body)) {

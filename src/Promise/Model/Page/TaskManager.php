@@ -37,16 +37,19 @@ class TaskManager extends PageBase
     {
         $tasks = $this->rf->task->listPendingTasks();
         if (empty($tasks)) {
-            return;
+            return true;
         }
 
         Log::debug('pending tasks: ' . json_encode($tasks));
 
         foreach ($tasks as $task) {
-            if ((int)$task['type'] === Constant::TASK_TYPE_HTTP) {
-                $this->handleHTTPTask($task);
+            if ((int)$task['type'] === Constant::TASK_TYPE_HTTP
+                && false === $this->handleHTTPTask($task)) {
+                return false;
             }
         }
+
+        return true;
     }
 
     public function handleHTTPTask(array $task)

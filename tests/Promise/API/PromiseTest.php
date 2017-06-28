@@ -10,46 +10,42 @@ namespace tests\Promise\API;
 
 
 use tests\TestBase;
+use Ramsey\Uuid\Uuid;
 use Promise\API\Promise;
+use Promise\Model\Page\PageFactory;
 
 class PromiseTest extends TestBase
 {
 
-    /**
-     * @dataProvider dataProvider
-     */
-    public function testSendHTTPRequest($data)
+    public function testSendHTTPRequest()
     {
-        $promise = new Promise($data['app_key']);
-        $promise->sendHTTPRequest($data['request']['method'], $data['request']['uri'],$data['request']['options'])
-            ->expectStatusCode($data['expected_response']['status_code'])
-            ->withDeadline($data['deadline'])
-            ->withMaxRetries($data['max_retries'])
-            ->withRetryInterval($data['retry_interval']);
+        $promise = new Promise('promise');
+        $options = [
+            'headers' => [
+                'X-Request-Id' => Uuid::uuid4(),
+            ]
+        ];
+        $promise->sendHTTPRequest('GET', 'http://localhost:12345/json', $options)
+
+            ->expectStatusCode(200)
+            ->expectBody('{"array":{"int":1}}')
+            ->expectBodyJsonHasKey('array.int')
+            ->expectBodyContainsString('int')
+            ->expectBodyJsonFieldEquals('array.int', 1)
+
+            ->withDeadline(time() + 3600)
+            ->withMaxRetries(3)
+            ->withRetryInterval(3);
 
         $this->assertTrue($promise->doNow());
     }
 
-    public function dataProvider()
+    /**
+     * @depends testSendHTTPRequest
+     */
+    public function testHandleTasks()
     {
-        return [
-            [
-                [
-                    'app_key' => 'promise',
-                    'request' => [
-                        'method' => 'GET',
-                        'uri' => 'http://localhost',
-                        'options' => [],
-                    ],
-                    'expected_response' => [
-                        'status_code' => 200,
-                    ],
-                    'max_retries' => 5,
-                    'retry_interval' => 3,
-                    'deadline' => time() + 120,
-                ]
-            ]
-        ];
+        $this->assertTrue(PageFactory::i()->taskManager->handleTasks());
     }
 
     /**
@@ -59,7 +55,7 @@ class PromiseTest extends TestBase
     public function testSendHTTPRequestWithoutExpectedResponse()
     {
         $promise = new Promise('test');
-        $promise->sendHTTPRequest('GET', 'http://localhost');
+        $promise->sendHTTPRequest('GET', 'http://localhost:12345');
 
         $this->assertTrue($promise->doNow());
     }
@@ -71,7 +67,7 @@ class PromiseTest extends TestBase
     public function testSendHTTPRequestWithoutDeadline()
     {
         $promise = new Promise('test');
-        $promise->sendHTTPRequest('GET', 'http://localhost')
+        $promise->sendHTTPRequest('GET', 'http://localhost:12345')
             ->expectStatusCode(200);
 
         $this->assertTrue($promise->doNow());
@@ -84,7 +80,7 @@ class PromiseTest extends TestBase
     public function testSendHTTPRequestWithoutMaxRetries()
     {
         $promise = new Promise('test');
-        $promise->sendHTTPRequest('GET', 'http://localhost')
+        $promise->sendHTTPRequest('GET', 'http://localhost:12345')
             ->expectStatusCode(200)
             ->withDeadline(time() + 200);
 
@@ -98,7 +94,7 @@ class PromiseTest extends TestBase
     public function testSendHTTPRequestWithoutRetryInterval()
     {
         $promise = new Promise('test');
-        $promise->sendHTTPRequest('GET', 'http://localhost')
+        $promise->sendHTTPRequest('GET', 'http://localhost:12345')
             ->expectStatusCode(200)
             ->withDeadline(time() + 200)
             ->withMaxRetries(20);

@@ -141,7 +141,7 @@ class HTTPTask extends TaskBase
 
         $HTTPTaskAssert = new HTTPTaskAssert($response);
         foreach ($expectedResponse as $key => $value) {
-            $assertMethod = 'assert' . str_replace('_', '', ucwords($key));
+            $assertMethod = 'assert' . str_replace('_', '', ucwords($key, '_'));
             if (!method_exists($HTTPTaskAssert, $assertMethod)) {
                 throw new RuntimeException(
                     'Method [' . get_class($HTTPTaskAssert) .  ' ' . $assertMethod . '] not exists');
