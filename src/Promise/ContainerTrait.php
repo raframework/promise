@@ -56,7 +56,7 @@ trait ContainerTrait
             return;
         }
 
-        Log::initDefaultLogger('/home/huangshaowen/www/log/promise/promise.log');
+        Log::initDefaultLogger('./log/promise/promise.log');
         Log::setDefaultLevel(LogLevel::DEBUG);
     }
 }
