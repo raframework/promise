@@ -44,6 +44,8 @@ class PromiseTest extends TestBase
             true,
             false
         );
+        $channel->close();
+        $connection->close();
     }
 
     public function testSendHTTPRequest()
