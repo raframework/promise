@@ -122,15 +122,8 @@ class HTTPTask extends TaskBase
         if (empty($this->getExpectedResponse())) {
             throw new InvalidArgumentException('"Expected response" must be set, call expect***().');
         }
-        if (empty($this->getDeadline())) {
-            throw new InvalidArgumentException('"Deadline" must be set, call withDeadline().');
-        }
-        if (empty($this->getMaxRetries())) {
-            throw new InvalidArgumentException('"Max retries" must be set, call withMaxRetries().');
-        }
-        if (empty($this->getRetryInterval())) {
-            throw new InvalidArgumentException('"Retry interval" must be set, call withRetryInterval().');
-        }
+
+        $this->validateRetryOptions();
     }
 
     public static function assertResponse(array $expectedResponse, ResponseInterface $response)

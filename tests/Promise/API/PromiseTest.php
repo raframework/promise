@@ -13,9 +13,38 @@ use tests\TestBase;
 use Ramsey\Uuid\Uuid;
 use Promise\API\Promise;
 use Promise\Model\Page\PageFactory;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class PromiseTest extends TestBase
 {
+    const AMQP_EXCHANGE = 'promise_unit_test';
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        // Initialize AMQP exchange
+        $this->initializeAMQP();
+    }
+
+    private function initializeAMQP()
+    {
+        $connection = new AMQPStreamConnection(
+            '127.0.0.1',
+            '5672',
+            'guest',
+            'guest',
+            '/'
+        );
+        $channel = $connection->channel();
+        $channel->exchange_declare(
+            self::AMQP_EXCHANGE,
+            'topic',
+            false,
+            true,
+            false
+        );
+    }
 
     public function testSendHTTPRequest()
     {
@@ -43,7 +72,7 @@ class PromiseTest extends TestBase
     /**
      * @depends testSendHTTPRequest
      */
-    public function testHandleTasks()
+    public function testHandleHTTPTasks()
     {
         $this->assertTrue(PageFactory::i()->taskManager->handleTasks());
     }
@@ -100,5 +129,32 @@ class PromiseTest extends TestBase
             ->withMaxRetries(20);
 
         $this->assertTrue($promise->doNow());
+    }
+
+    public function testAMQPPublish()
+    {
+        $promise = new Promise('test');
+        $options = [
+            'host' => '127.0.0.1',
+            'port' => '5672',
+            'user' => 'guest',
+            'password' => 'guest',
+            'vhost' => '/',
+            'exchange' => self::AMQP_EXCHANGE,
+        ];
+        $promise->AMQPPublish('test', 'user.123.create', $options)
+            ->withDeadline(time()+3600)
+            ->withMaxRetries(5)
+            ->withRetryInterval(3);
+
+        $promise->doNow();
+    }
+
+    /**
+     * @depends testAMQPPublish
+     */
+    public function testHandleAMQPTasks()
+    {
+        $this->assertTrue(PageFactory::i()->taskManager->handleTasks());
     }
 }

@@ -88,4 +88,17 @@ class TaskBase
     {
         return $this->retryInterval;
     }
+
+    protected function validateRetryOptions()
+    {
+        if (empty($this->getDeadline())) {
+            throw new InvalidArgumentException('"Deadline" must be set, call withDeadline().');
+        }
+        if (empty($this->getMaxRetries())) {
+            throw new InvalidArgumentException('"Max retries" must be set, call withMaxRetries().');
+        }
+        if (empty($this->getRetryInterval())) {
+            throw new InvalidArgumentException('"Retry interval" must be set, call withRetryInterval().');
+        }
+    }
 }
